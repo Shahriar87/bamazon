@@ -1,10 +1,14 @@
 var mysql = require('mysql');
+require('dotenv').config();
+var keys = require("./keys.js");
+
+// CREATING CONNECTION WITH DATABASE
 
 var con = mysql.createConnection({
     host: 'localhost',
     port: 3306,
-    user: 'root',
-    password: 'password'
+    user: keys.databasecredentials.user,
+	password: keys.databasecredentials.password,
 });
 
 con.connect(function (err) {
@@ -99,6 +103,8 @@ function createProducts() {
             console.log("products table is created");
             // LOGS THE ACTUAL QUERY
             console.log(query.sql);
+            con.end();
+
         }
     );
 }
