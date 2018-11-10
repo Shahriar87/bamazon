@@ -10,29 +10,33 @@ var keys = require("./keys.js");
 
 var totalCost;
 var con = mysql.createConnection({
-	host: 'localhost',
-	port: 3306,
-	user: keys.databasecredentials.user,
-	password: keys.databasecredentials.password,
-	database: 'bamazon'
+    host: 'localhost',
+    port: 3306,
+    user: keys.databasecredentials.user,
+    password: keys.databasecredentials.password,
+    database: 'bamazon'
 });
 
-con.connect(function(err){
-	if (err) throw err;
-	console.log('connected')
+con.connect(function (err) {
+    if (err) throw err;
+    console.log('connected')
 });
 
 // SHOWING AVAILABLE INVENTORY ITEMS
 
-function showInventory(){
-    con.query('SELECT * FROM products', function(err, res){
+function showInventory() {
+    con.query('SELECT * FROM products', function (err, res) {
         if (err) throw err;
-            console.log("Available Items in store");
-            console.log("==========================================");
-            console.log(res);
-            console.log("==========================================");
-            inquireUser();
-        });
+        console.log("Available Items in store");
+        console.log("========================================================================================================================");
+        for (i = 0; i < res.length; i++) {
+            console.log('Item ID:' + res[i].item_id + '   Product Name: ' + res[i].product_name + '   Department Name: ' + res[i].department_name
+                + '   Price: ' + '$' + res[i].price + '   Quantity in Stock: ' + res[i].stock_quantity);
+            console.log("------------------------------------------------------------------------------------------------------------------------");
+        };
+        console.log("========================================================================================================================");
+        inquireUser();
+    });
 
 };
 
@@ -45,7 +49,7 @@ function inquireUser() {
         message: "Please enter the product ID you want to purchase ?",
         validate: function (value) {
             var valid = value.match(/^[0-9]*$/)
-            if (value) {
+            if (valid) {
                 return true
             } else {
                 return "Please enter a valid Product ID"
@@ -56,7 +60,7 @@ function inquireUser() {
         message: "How many quantity would you like to order ?",
         validate: function (value) {
             var valid = value.match(/^[0-9]*$/)
-            if (value) {
+            if (valid) {
                 return true
             } else {
                 return "Please enter valid quantity"
