@@ -43,7 +43,7 @@ function inquireManager() {
                 updateInventory();
                 break;
             case "Add New Product":
-                showInventory();
+                addInventory();
                 break;
         }
     })
@@ -55,9 +55,13 @@ function showInventory() {
     con.query('SELECT * FROM products', function (err, res) {
         if (err) throw err;
         console.log("Available Items in store");
-        console.log("==============================================");
-        console.log(res);
-        console.log("==============================================");
+        console.log("========================================================================================================================");
+        for (i = 0; i < res.length; i++) {
+            console.log('Item ID:' + res[i].item_id + '   Product Name: ' + res[i].product_name + '   Department Name: ' + res[i].department_name
+                + '   Price: ' + '$' + res[i].price + '   Quantity in Stock: ' + res[i].stock_quantity);
+            console.log("------------------------------------------------------------------------------------------------------------------------");
+        };
+        console.log("========================================================================================================================");
         nextTransaction();
     });
 };
@@ -68,9 +72,13 @@ function showLowInventory() {
     con.query('SELECT * FROM products WHERE stock_quantity < 5', function (err, res) {
         if (err) throw err;
         console.log("Items with less than 5 quantities");
-        console.log("==============================================");
-        console.log(res);
-        console.log("==============================================");
+        console.log("========================================================================================================================");
+        for (i = 0; i < res.length; i++) {
+            console.log('Item ID:' + res[i].item_id + '   Product Name: ' + res[i].product_name + '   Department Name: ' + res[i].department_name
+                + '   Price: ' + '$' + res[i].price + '   Quantity in Stock: ' + res[i].stock_quantity);
+            console.log("------------------------------------------------------------------------------------------------------------------------");
+        };
+        console.log("========================================================================================================================");
         nextTransaction();
     });
 };
@@ -84,7 +92,7 @@ function updateInventory() {
         message: "Please enter the product ID you want to add more?",
         validate: function (value) {
             var valid = value.match(/^[0-9]*$/)
-            if (value) {
+            if (valid) {
                 return true
             } else {
                 return "Please enter a valid Product ID"
@@ -95,7 +103,7 @@ function updateInventory() {
         message: "How many quantity would you like to order ?",
         validate: function (value) {
             var valid = value.match(/^[0-9]*$/)
-            if (value) {
+            if (valid) {
                 return true
             } else {
                 return "Please enter valid quantity"
@@ -117,6 +125,70 @@ function updateInventory() {
             })
     })
 }
+
+// ADD MORE PRODUCT
+
+function addInventory() {
+    inquirer.prompt([{
+        name: "prodName",
+        type: "input",
+        message: "Please enter the product name"
+    }, {
+        name: "prodDept",
+        type: "input",
+        message: "Please enter the department name"
+    }, {
+        name: "prodPrice",
+        type: "input",
+        message: "Please enter the product listed price",
+        validate: function (value) {
+            var valid = value.match(/^[0-9]*$/)
+            if (valid) {
+                return true
+            } else {
+                return "Please enter a valid price"
+            }
+        }
+    }, {
+        name: "prodQuant",
+        type: "input",
+        message: "Please enter how many products you want to add",
+        validate: function (value) {
+            var valid = value.match(/^[0-9]*$/)
+            if (valid) {
+                return true
+            } else {
+                return "Please enter valid quantity"
+            }
+        }
+    }
+    ]).then(function (answer) {
+
+        con.query(
+            "INSERT INTO products SET ?",
+            {
+                product_name: answer.prodName,
+                department_name: answer.prodDept,
+                price: parseInt(answer.prodPrice),
+                stock_quantity: parseInt(answer.prodQuant)
+            },
+            function (err, res) {
+                con.query('SELECT * FROM products', function (err, res) {
+                    if (err) throw err;
+                    console.log("Available Items in store");
+                    console.log("========================================================================================================================");
+                    for (i = 0; i < res.length; i++) {
+                        console.log('Item ID:' + res[i].item_id + '   Product Name: ' + res[i].product_name + '   Department Name: ' + res[i].department_name
+                            + '   Price: ' + '$' + res[i].price + '   Quantity in Stock: ' + res[i].stock_quantity);
+                        console.log("------------------------------------------------------------------------------------------------------------------------");
+                    };
+                    console.log("========================================================================================================================");
+                    nextTransaction();
+                });
+            }
+        );
+    })
+};
 
 function nextTransaction() {
     inquirer.prompt([{
