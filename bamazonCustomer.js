@@ -35,14 +35,14 @@ function showInventory() {
             console.log("------------------------------------------------------------------------------------------------------------------------");
         };
         console.log("========================================================================================================================");
-        inquireUser();
+        inquireUser(res);
     });
 
 };
 
 // INQUIRE USER TO PUT WHICH & HOW MANY PRODUCTS THEY WANT TO PURCHASE
 
-function inquireUser() {
+function inquireUser(res) {
     inquirer.prompt([{
         name: "selectProd",
         type: "input",
@@ -50,7 +50,11 @@ function inquireUser() {
         validate: function (value) {
             var valid = value.match(/^[0-9]*$/)
             if (valid) {
-                return true
+                if(valid <= res.length) {
+                    return true
+                } else {
+                    return "This Item Number does not exist!"
+                }
             } else {
                 return "Please enter a valid Product ID"
             }
