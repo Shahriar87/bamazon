@@ -100,7 +100,7 @@ function updateInventory() {
         }
     }, {
         name: "selectQuant",
-        message: "How many quantity would you like to order ?",
+        message: "How many quantity would you like to Add?",
         validate: function (value) {
             var valid = value.match(/^[0-9]*$/)
             if (valid) {
