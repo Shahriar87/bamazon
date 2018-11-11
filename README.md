@@ -23,7 +23,7 @@ A CLI Application name Bamazon, where user can purchase see inventory items and 
 
 ### MVP:
 
-#### Customer View (Minimum Requirement)
+#### Customer View
 
 1. The app prompts users with two messages.
 
@@ -39,7 +39,7 @@ A CLI Application name Bamazon, where user can purchase see inventory items and 
    * Once the update goes through, it shows the customer the total cost of their purchase.
 
 
-#### Manager View (Next Level)
+#### Manager View
 
 1. List a set of menu options:
 
