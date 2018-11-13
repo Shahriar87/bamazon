@@ -1,7 +1,7 @@
 # Bamazon
 
 ### Check out Video Demonstration:
-[![LIRI BOT!](https://i.ytimg.com/vi/c5iHZu0XYFg/2.jpg?time=1541924751269)](https://youtu.be/c5iHZu0XYFg)
+[![BAMAZON APP!](https://i.ytimg.com/vi/c5iHZu0XYFg/2.jpg?time=1541924751269)](https://youtu.be/c5iHZu0XYFg)
 
 ## Project Brief
 
